@@ -1,820 +1,165 @@
-public class Main // formerly StackQueueTestingMcKeen
+import java.util.ArrayList;
+
+//Shashank Raghuraj
+//StackQueueTester
+//In this file, you will write the methods that will thoroughly test your StackList and QueueList
+
+// My recommendation:  Uncomment them ONE AT A TIME, write that method and test it in your Main.java runner before starting the next method
+public class StackQueueTester
 {
-  // The first three methods are HELPER methods
- // for testing purposes -- pass in an array of Strings
-  // return a QueueList of Strings
-  private static QueueList<String> createQ(String[] s)
+  //Funstructor
+  public StackQueueTester(){}
+  //returns a String containing all of the Strings in q in removal order each separated by a single space.  postcondition: q is empty
+	public String stringDump(QueueList<String> q)	
   {
-    QueueList <String> q = new QueueList<String>();
-    for (String e: s)
-      q.add(e);
-    return q;   
-    
+    //creates new sentence string
+    String sentence = "";
+    while(q.isEmpty() != true)
+    {
+      //sentence adds from the removed values
+      sentence += q.remove() + " ";
+    }
+    if(sentence.length() > 0)
+    {
+      //deletes the last space if the sentence length is > 0
+      sentence = sentence.substring(0, sentence.length()-1);
+    }
+    return sentence;
   }
- 
-  // for testing purposes -- pass in an array of Strings
-  // return a StackList of Strings
-  private static StackList<String> createS(String[] s)
+  //returns a String containing all of the Strings in s in removal order each separated by a single space.  postcondition: s is empty
+	public String stringDump(StackList<String> s)	
   {
-    StackList <String> sl = new StackList<String>();
-    for (String e: s)
-      sl.push(e);
-    return sl;    
-    
-  } 
-    
-  // displays correct answer separated by spaces
-  public static void displayAnswer(String[] s)
-  {
-      for (int i = 0; i < s.length; i++)
-      {
-        System.out.print(s[i]);
-        if (i < s.length-1)
-          System.out.print(" ");
-      }
-    
-    
+    //creates the sentence string
+    String sentence = "";
+    while(s.isEmpty() != true)
+    {
+      //sentence gets added as StackList has removed
+      sentence += s.pop() + " ";
+    }
+    if(sentence.length() > 0)
+    {
+      //deletes the space at the end
+      sentence = sentence.substring(0, sentence.length()-1);
+    }
+    return sentence;
   }
-  
-  
-  public static void main(String[] args)
+  //removes all instances of name from q.  All remaining elements in q keep their original order.
+	public void removeName(QueueList<String> q, String name)
   {
-    KeyboardReader reader = new KeyboardReader();
-    char letter;
-    int selection = 0;
-    int step=1, testCaseNum=1;
- 
-    
-    StackQueueTester t = new StackQueueTester();
-    QueueList<String> q = new QueueList<String>();
-    StackList <String> s = new StackList<String>();
-    
-    System.out.println("");
-    do
-    {     
-      System.out.println("\nWelcome to the Stack and Queue Testing Options"+
-      "\n1.) removeName"+
-      "\n2.) stackSearch"+
-      "\n3.) splitString"+
-      "\n4.) longestWords"+
-      "\n5.) findDuplicates (BONUS) - must be UNCOMMENTED"+
-      "\n6.) RingBuffer methods"+
-      "\n0.) Exit");
-      selection = reader.readInt("Enter a selection: ");
- 
-////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// Testing removeName  ////////////////////////////////////////////////////////////      
- 
-      if (selection == 1)
+    //creates a temp queue list;
+    QueueList<String> tempQueue = new QueueList<String>();
+    while(q.isEmpty() != true)
+    {
+      //checks to see if the top value in the queue is the search value
+      if(q.peek().equals(name))
       {
- 
-        System.out.println("removeName Test Cases");
- 
-        //1 beginning
-        testCaseNum = 1;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s1 = {"a","b","c","d","e","f"};
-        String[] c1 = {"b","c","d","e","f"};
-        q = createQ(s1);
-        
-        t.removeName(q, "a");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(t.stringDump(q));
-        System.out.println("\nCORRECT ANSWER:");
-        displayAnswer(c1);
-        System.out.println("\n");
-              
-        reader.pause();
- 
-        //2 middle duplicates
-        testCaseNum = 2;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
-        
-        String[] s2 = {"a","b","c","c", "d","e","f"};
-        String[] c2 = {"a", "b","d","e","f"};
-        q = createQ(s2);
-        
-        t.removeName(q, "c");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(t.stringDump(q));
-        System.out.println("\nCORRECT ANSWER:");
-        displayAnswer(c2);
-        System.out.println("\n");
-        
-        reader.pause();
- 
-        //3 end
-        testCaseNum = 3;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
-        
-        String[] s3 = {"a","b","c","d","e","f"};
-        String[] c3 = {"a", "b","c","d","e"};
-        q = createQ(s3);
-        
-        t.removeName(q, "f");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(t.stringDump(q));
-        System.out.println("\nCORRECT ANSWER:");
-        displayAnswer(c3);
-        System.out.println("\n");
-        
-        reader.pause(); 
-                
-        //4  not found
-        testCaseNum = 4;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
-        
-        String[] s4 = {"a","b","c","d","e","f"};
-        String[] c4 = {"a","b","c","d","e","f"};
-        q = createQ(s4);
-        
-        t.removeName(q, "g");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(t.stringDump(q));
-        System.out.println("\nCORRECT ANSWER:");
-        displayAnswer(c4);
-        System.out.println("\n");
-        
-        reader.pause();     
- 
-        //5   empty
-        testCaseNum = 5;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
-        
-        String[] s5 = {};
-        String[] c5 = {};
-        q = createQ(s5);
-        
-        t.removeName(q, "g");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(t.stringDump(q));
-        System.out.println("\nCORRECT ANSWER:");
-        displayAnswer(c5);
-        System.out.println("\n");
-        
-        reader.pause();
+        //if it is, then it removes
+        q.remove();
       }
-////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// Testing stackSearch  ////////////////////////////////////////////////////////////     
- 
-      if (selection == 2)
+      else
       {
-        System.out.println("stackSearch Test Cases");
- 
-        boolean answer;
-        
-        //1 finds in beginning
-        testCaseNum = 1;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s1 = {"h","i","j","k","l","m"};
-        String[] c1 = {"m","l","k","j","i","h"};
-        s = createS(s1);
-        
-        answer = t.stackSearch(s, "h");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(answer + " " + t.stringDump(s));
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("true ");
-        displayAnswer(c1);
-        System.out.println("\n");
-        
-        reader.pause();
-        
-        //2 finds at end
-        testCaseNum++;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s2 = {"h","i","j","k","l","m"};
-        String[] c2 = {"m","l","k","j","i","h"};
-        s = createS(s2);
-        
-        answer = t.stackSearch(s, "m");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(answer + " " + t.stringDump(s));
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("true ");
-        displayAnswer(c2);
-        System.out.println("\n");
-        
-        reader.pause();       
-        
-        //3 doesn't find it in a populated stack
-        testCaseNum++;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s3 = {"h","i","j","k","l","m"};
-        String[] c3 = {"m","l","k","j","i","h"};
-        s = createS(s3);
-        
-        answer = t.stackSearch(s, "z");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(answer + " " + t.stringDump(s));
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("false ");
-        displayAnswer(c3);
-        System.out.println("\n");
-        
-        reader.pause(); 
-          
-        //4 doesn't find in an empty stack
-        testCaseNum++;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s4 = {};
-        s = createS(s4);
-        
-        answer = t.stackSearch(s, "z");
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(answer + " " + t.stringDump(s));
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("false ");
-        displayAnswer(s4);
-        System.out.println("\n");
-        
-        reader.pause();           
-                  
+        //else it'll add this to a temp queue
+        tempQueue.add(q.remove());
       }
-////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// Testing splitString  ////////////////////////////////////////////////////////////     
- 
-      if (selection == 3)
+    }
+    //it moves it all back to the q
+    while(tempQueue.isEmpty() != true)
+    {
+      q.add(tempQueue.remove());
+    }
+  }
+  //returns true if name is found in s and false otherwise.  The elements in s are in their original order. 
+	public boolean stackSearch(StackList<String> s, String name)	
+  {	
+    //temp stack
+    StackList<String> tempStack = new StackList<String>();
+    boolean search = false;//boolean var
+    while(s.isEmpty() != true)
+    {
+      if(s.peek().equals(name))
       {
- 
-        System.out.println("splitString Test Cases");
- 
-        //1 Normal sentence
-        testCaseNum = 1;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String s1 = "The quick brown fox jumped over the lazy red dog.";
-        String[] c1 = {"The","quick","brown","fox","jumped", "over", "the", "lazy", "red", "dog"};
- 
-        
-        q = t.splitString(s1);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(t.stringDump(q));
-        System.out.println("\nCORRECT ANSWER:");
-        displayAnswer(c1);
-        System.out.println("\n");
-        
-        reader.pause();
- 
-        //2 Two word sentence
-        testCaseNum++;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
-        System.out.println("This case makes sure there are no extra spaces before/after the words.");
- 
-        String s2 = "Fall down.";
-        String[] c2 = {"Fall","down"};
- 
-        
-        q = t.splitString(s2);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("$$"+t.stringDump(q)+"$$");
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("$$");
-        displayAnswer(c2);
-        System.out.print("$$");
-        System.out.println("\n");
-        
-        reader.pause();     
- 
-        //3 One word sentence
-        testCaseNum++;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String s3 = "Wait.";
-        String[] c3 = {"Wait"};
- 
-        
-        q = t.splitString(s3);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println(t.stringDump(q));
-        System.out.println("\nCORRECT ANSWER:");
-        displayAnswer(c3);
-        System.out.println("\n");
-        
-        reader.pause();     
- 
+        search = true;//if the first value = name
       }
-  
-////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// Testing longestWords  ////////////////////////////////////////////////////////////      
- 
-      if (selection == 4)
+      tempStack.push(s.pop());//adds
+    }
+    while(tempStack.isEmpty() != true)
+    {
+      s.push(tempStack.pop());//reverses order back to original
+    }
+    return search;
+  }
+  //This method returns the individual words in order (without any spaces or periods) in a QueueList. 
+	public QueueList<String> splitString(String s)
+  {
+    //temp str to add to
+    String addingStr = "";
+    //used the string analysis to help
+    QueueList<String> queue = new QueueList<String>();
+    for(int i = 0; i < s.length(); i++)
+    {
+      //will check substring while its not equal to space or period
+      if(! s.substring(i,i+1).equals(" ") && !s.substring(i, i+1).equals("."))
       {
- 
-        System.out.println("longestWords Test Cases");
- 
-        String answer;
-        QueueList<String> qa;
-        
-        //1 longest word first
-        testCaseNum = 1;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s1 = {"aaaaaa","b","cc","ddd","eeee","fffff"};
-        String c1 = "aaaaaa";
- 
-        
-        q = createQ(s1);
-        
-        qa = t.longestWords(q);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Longest Word(s): " + t.stringDump(qa));
-        System.out.println("Queue: " + t.stringDump(q));
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.println("Longest Word(s): " + c1);
-        System.out.print("Queue: ");
-        displayAnswer(s1);
-        System.out.println("\n");
-        
-        reader.pause();
- 
-        //2 longest word last
-        testCaseNum = 2;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s2 = {"aaaaaa","b","cc","ddd","eeee","fffffff"};
-        String c2 = "fffffff";
- 
-        
-        q = createQ(s2);
-        
-        qa = t.longestWords(q);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Longest Word(s): " + t.stringDump(qa));
-        System.out.println("Queue: " + t.stringDump(q));
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.println("Longest Word(s): " + c2);
-        System.out.print("Queue: ");
-        displayAnswer(s2);
-        System.out.println("\n");
-        
-        reader.pause();
- 
-        //3 longest word first and last
-        testCaseNum = 3;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s3 = {"aaaaaa","b","cc","ddd","eeee","ffffff"};
-        String c3 = "aaaaaa ffffff";
- 
-        
-        q = createQ(s3);
-        
-        qa = t.longestWords(q);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Longest Word(s): " + t.stringDump(qa));
-        System.out.println("Queue: " + t.stringDump(q));
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.println("Longest Word(s): " + c3 + "          (order does not matter)");
-        System.out.print("Queue: ");
-        displayAnswer(s3);
-        System.out.println("\n");
-        
-        reader.pause();
- 
-        //4 all longest words
-        testCaseNum = 4;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s4 = {"a","b","c","d","e","f"};
-        String c4 = "a b c d e f";
- 
-        
-        q = createQ(s4);
-        
-        qa = t.longestWords(q);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Longest Word(s): " + t.stringDump(qa));
-        System.out.println("Queue: " + t.stringDump(q));
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.println("Longest Word(s): " + c4 + "          (order does not matter)");
-        System.out.print("Queue: ");
-        displayAnswer(s4);
-        System.out.println("\n");
-        
-        reader.pause();
- 
-        //5 only one word
-        testCaseNum = 5;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s5 = {"bobalu"};
-        String c5 = "bobalu";
- 
-        
-        q = createQ(s5);
-        
-        qa = t.longestWords(q);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Longest Word(s): " + t.stringDump(qa));
-        System.out.println("Queue: " + t.stringDump(q));
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.println("Longest Word(s): " + c5);
-        System.out.print("Queue: ");
-        displayAnswer(s5);
-        System.out.println("\n");
-        
-        reader.pause();
- 
-        //6 empty Queue - dirty
-        testCaseNum = 6;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s6 = {""};
-        String c6 = "";
- 
-        
-        q = createQ(s6);
-        
-        qa = t.longestWords(q);
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Longest Word(s): " + t.stringDump(qa));
-        System.out.println("Queue: " + t.stringDump(q));
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.println("Longest Word(s): " + c6);
-        System.out.print("Queue: ");
-        displayAnswer(s6);
-        System.out.println("\n");
-        
-        reader.pause();   
+        addingStr += s.substring(i,i+1);
+      }
+      //if it is a space, it adds
+      else
+      {
+        queue.add(addingStr);
+        addingStr = "";
+      }
+    }
+    return queue;
+  }
+  //returns a QueueList containing the longest word(s) in q.  postcondition: q contains its original elements in their original order.
+	public QueueList<String> longestWords(QueueList<String> q)
+  {	
+    int maxLength = 0;//calculates max length
+    QueueList<String> queueTemp = new QueueList<String>();//temporary queue
+    QueueList<String> queueFinal =  new QueueList<String>();//result queue
+    while(q.isEmpty() != true)
+    {
+      //By using the properties of the linkedlist which is the length
+      if(q.peek().length() > maxLength)
+      {
+        maxLength = q.peek().length(); // sets max length to q.peek().length();
+      }
+      queueTemp.add(q.remove());//traverses by pushing into temp list
+    }
+    while(queueTemp.isEmpty() != true)
+    {
+      //checks to see if the max length occurs
+      if(queueTemp.peek().length() == maxLength)
+      {
+        queueFinal.add(queueTemp.peek());//if so, it adds to the final
+      }
+      //adds to q to get back to original
+      q.add(queueTemp.remove());
+    }
+    return queueFinal;
+  }
+  public StackList<String> findDuplicates(StackList<String> s, QueueList<String> q)
+  {
+    StackList<String> finalStack = new StackList<String>();
+    ArrayList<String> tempList = new ArrayList<String>();
+    ArrayList<String> newList = new ArrayList<String>();
+    while(s.isEmpty() != true){
+      tempList.add(s.pop());
+    }
+    while(q.isEmpty() != true){
+      tempList.add(q.remove());
+    }
+    for (String store : tempList) 
+    { 
+      if (!newList.contains(store)) 
+      {
+        newList.add(store); 
       } 
-        
-////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// Testing findDuplicates BONUS  ////////////////////////////////////////////////////////////      
- 
-////// MUST BE UNCOMMENTED TO TEST THE BONUS
-////// Make sure you remove both the /* AND the */
-///////////////////////////////////////
-
-      if (selection == 5)
-      {
-        
-        StackList <String> ans;
- 
-        System.out.println("findDuplicates BONUS Test Cases");
- 
-        //1 beginning and end - one duplicate
-        testCaseNum = 1;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s1 = {"a","b","c","d","e","f"};
-        String[] q1 = {"g","h","i","j","k","a"};
-        String[] c1 = {"a"};
-        String[] sc1 = {"f","e","d","c","b","a"};
-        q = createQ(q1);
-        s = createS(s1);
-          
-        ans = t.findDuplicates(s, q);
- 
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Duplicate words: " + t.stringDump(ans));
-        System.out.println(t.stringDump(q));
-        System.out.println(t.stringDump(s));
-        
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("Duplicate words: ");
-        displayAnswer(c1);
-        System.out.println();
-        displayAnswer(q1);
-        System.out.println();       
-        displayAnswer(sc1);
-        System.out.println();
- 
-        
-        reader.pause();
- 
-        //2  2 last same as 2 first
-        testCaseNum = 2;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s2 = {"a","b","c","d","e","f", "g"};
-        String[] q2 = {"f", "g","g", "h","i","j"};
-        String[] c2 = {"f", "g"};
-        String[] sc2 = {"g", "f","e","d","c","b","a"};
-        q = createQ(q2);
-        s = createS(s2);
-          
-        ans = t.findDuplicates(s, q);
- 
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Duplicate words: " + t.stringDump(ans) + "\t\t(order does not matter)");
-        System.out.println(t.stringDump(q));
-        System.out.println(t.stringDump(s));
-        
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("Duplicate words: ");
-        displayAnswer(c2);
-        System.out.println();
-        displayAnswer(q2);
-        System.out.println();
-        displayAnswer(sc2);
-        System.out.println();
- 
-        
-        reader.pause();
- 
- 
-        //3 all words same
-        testCaseNum = 3;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s3 = {"z","z","z","z","z","z","z"};
-        String[] q3 = {"z", "z","z", "z","z","z"};
-        String[] c3 = {"z"};
-        q = createQ(q3);
-        s = createS(s3);
-          
-        ans = t.findDuplicates(s, q);
- 
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Duplicate words: " + t.stringDump(ans) + "\t\t(order does not matter)");
-        System.out.println(t.stringDump(q));
-        System.out.println(t.stringDump(s));
-        
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("Duplicate words: ");
-        displayAnswer(c3);
-        System.out.println();
-        displayAnswer(q3);
-        System.out.println();
-        displayAnswer(s3);
-        System.out.println();
- 
-        
-        reader.pause();
- 
-        //4 all words same but 1
-        testCaseNum = 4;
-        System.out.println("\n\n\nTEST CASE #" + testCaseNum);
- 
-        String[] s4 = {"b","z","z","z","z","z","z", "z"};
-        String[] q4 = {"z", "z","z", "z","z","z","a"};
-        String[] c4 = {"z"};
-        String[] sc4 = {"z","z","z","z","z","z","z","b"};
-        q = createQ(q4);
-        s = createS(s4);
-          
-        ans = t.findDuplicates(s, q);
- 
-        
-        System.out.println("\nSTUDENT ANSWER:");
-        System.out.println("Duplicate words: " + t.stringDump(ans) + "\t\t(order does not matter)");
-        System.out.println(t.stringDump(q));
-        System.out.println(t.stringDump(s));
-        
-        
-        System.out.println("\nCORRECT ANSWER:");
-        System.out.print("Duplicate words: ");
-        displayAnswer(c4);
-        System.out.println();
-        displayAnswer(q4);
-        System.out.println();
-        displayAnswer(sc4);
-        System.out.println();
- 
-        
-        reader.pause();
- 
-      }         
-
- 
-////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// Testing RingBuffer  ////////////////////////////////////////////////////////////              
-      if (selection == 6)
-      {
-        RingBuffer rb = new RingBuffer(3);
-        step = 1;
-        
-        //1
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("\nResult from peek, getFront, getRear, and isEmpty:");
-        System.out.println( "\n\tgetFront = "+ rb.getFront() +"\t CORRECT: 0");
-        System.out.println( "\n\tgetRear = "+ rb.getRear() +"\t CORRECT: 0");
-        System.out.println( "\n\tisEmpty = "+ rb.isEmpty() +"\t CORRECT: true");
-        System.out.println( "\n\tpeek = "+ rb.peek() +"\t CORRECT: !");
-        reader.pause();
-        step++;
-        
-        //2
-        step = 2;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("Result from add a, b, and c");
-        System.out.println("\t"+ rb.add('a')+"\t CORRECT: true");
-        System.out.println("\t"+ rb.add('b')+"\t CORRECT: true");
-        System.out.println("\t"+ rb.add('c')+"\t CORRECT: true");
-        reader.pause();
-        step++;
-        
-        //3
-        step = 3;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("\nResult from peek, getFront, getRear, and isEmpty:");
-        System.out.println( "\n\tgetFront = "+ rb.getFront() +"\t CORRECT: 0");
-        System.out.println( "\n\tgetRear = "+ rb.getRear() +"\t CORRECT: 3");
-        System.out.println( "\n\tisEmpty = "+ rb.isEmpty() +"\t CORRECT: false");
-        System.out.println( "\n\tpeek = "+ rb.peek() +"\t CORRECT: a");
-        reader.pause();
-        step++;
-        
-        //4
-        step = 4;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("Result from add d");
-        System.out.println("\t"+ rb.add('d')+"\t CORRECT: false");
-        reader.pause();
-        step++;
-        
-        //5
-        step = 5;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("Result from remove");
-        System.out.println("\t"+ rb.remove()+"\t CORRECT: a");
-        reader.pause();
-        step++;
-        
-        //6
-        step = 6;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("\nResult from peek, getFront, getRear, and isEmpty:");
-        System.out.println( "\n\tgetFront = "+ rb.getFront() +"\t CORRECT: 1");
-        System.out.println( "\n\tgetRear = "+ rb.getRear() +"\t CORRECT: 3");
-        System.out.println( "\n\tisEmpty = "+ rb.isEmpty() +"\t CORRECT: false");
-        System.out.println( "\n\tpeek = "+ rb.peek() +"\t CORRECT: b");
-        reader.pause();
-        step++;
-        
-        //7
-        step = 7;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("Result from add d");
-        System.out.println("\t"+ rb.add('d')+"\t CORRECT: true");
-        reader.pause();
-        step++;
-        
-        //8
-        step = 8;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("\nResult from peek, getFront, getRear, and isEmpty:");
-        System.out.println( "\n\tgetFront = "+ rb.getFront() +"\t CORRECT: 1");
-        System.out.println( "\n\tgetRear = "+ rb.getRear() +"\t CORRECT: 0");
-        System.out.println( "\n\tisEmpty = "+ rb.isEmpty() +"\t CORRECT: false");
-        System.out.println( "\n\tpeek = "+ rb.peek() +"\t CORRECT: b");
-        reader.pause();
-        step++;
-        
-        //9
-        step = 9;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("Result from remove");
-        System.out.println("\t"+ rb.remove()+"\t CORRECT: b");
-        reader.pause();
-        step++;
-        
-        //10
-        step = 10;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("\nResult from peek, getFront, getRear, and isEmpty:");
-        System.out.println( "\n\tgetFront = "+ rb.getFront() +"\t CORRECT: 2");
-        System.out.println( "\n\tgetRear = "+ rb.getRear() +"\t CORRECT: 0");
-        System.out.println( "\n\tisEmpty = "+ rb.isEmpty() +"\t CORRECT: false");
-        System.out.println( "\n\tpeek = "+ rb.peek() +"\t CORRECT: c");
-        reader.pause();
-        step++;
-        
-        //11
-        step = 11;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("Result from add e");
-        System.out.println("\t"+ rb.add('e')+"\t CORRECT: true");
-        reader.pause();
-        step++;
-        
-        //12
-        step = 12;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("\nResult from peek, getFront, getRear, and isEmpty:");
-        System.out.println( "\n\tgetFront = "+ rb.getFront() +"\t CORRECT: 2");
-        System.out.println( "\n\tgetRear = "+ rb.getRear() +"\t CORRECT: 1");
-        System.out.println( "\n\tisEmpty = "+ rb.isEmpty() +"\t CORRECT: false");
-        System.out.println( "\n\tpeek = "+ rb.peek() +"\t CORRECT: c");
-        reader.pause();
-        step++;
-        
-        //13
-        step = 13;
-        System.out.println("\n\nRingBuffer SUBCASE " + step);
-        System.out.println("Result from flush");
-        rb.flush();
-        System.out.println("\nResult from peek, getFront, getRear, and isEmpty:");
-        System.out.println( "\n\tgetFront = "+ rb.getFront() +"\t CORRECT: same as getRear");
-        System.out.println( "\n\tgetRear = "+ rb.getRear() +"\t CORRECT: same as getFront");
-        System.out.println( "\n\tisEmpty = "+ rb.isEmpty() +"\t CORRECT: true");
-        System.out.println( "\n\tpeek = "+ rb.peek() +"\t CORRECT: !");
-        reader.pause();
-        step++;
-        
-      }
-        
-////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// Testing QueueList  //////////////////////////////////////////////////////////// 
-// Currently UNUSED
-      if (selection == 7)
-      {
-        q = new QueueList<String>();
-        step = 1;
-        
-        //1
-        System.out.println("\n\nQueue SUBCASE " + step);
-        System.out.println("isEmpty() = " + q.isEmpty());
-        reader.pause();
-        step++;
-        
-        System.out.println("\n\nQueue SUBCASE " + step);
-        q.add("AA");
-        System.out.println("add(\"AA\")");
-        System.out.println("peek() = " + q.peek());
-        reader.pause();
-        step++;
-        
-        System.out.println("\n\nQueue SUBCASE " + step);
-        q.add("ZZ");
-        q.add("RR");
-        System.out.println("add(\"ZZ\")");
-        System.out.println("add(\"RR\")");
-        System.out.println("peek() = " + q.peek());
-        System.out.println(q.peek());
-        System.out.println("isEmpty() = " + q.isEmpty());
-        reader.pause();
-        step++;
-        
-        
-        System.out.println("\n\nQueue SUBCASE " + step);
-        System.out.println("remove() = " + q.remove());
-        System.out.println("remove() = " + q.remove());
-        reader.pause();
-        step++;
-        
-        
-        System.out.println("\n\nQueue SUBCASE " + step);
-        q.add("CC");
-        System.out.println("add(\"CC\")");
-        System.out.println("remove() = " + q.remove());
-        System.out.println("remove() = " + q.remove());
-        reader.pause();
-        step++;
-        
-        System.out.println("\n\nQueue SUBCASE " + step);
-        System.out.println("isEmpty() = " + q.isEmpty());
-        reader.pause();
-        step++;
-        
-    
-      }
-      
-      
-    } while (selection != 0);
-    System.out.println("Mr. McKeen is so fortunate to get to teach a student like you.");
-    System.out.println("Thank you for taking APCS!");
-    System.out.println("Please encourage other students to take it too!");
+    }
+    for(String store : newList)
+    {
+      finalStack.push(store);
+    }
+    return finalStack;
   }
- 
-  
-  
- 
 }
-
